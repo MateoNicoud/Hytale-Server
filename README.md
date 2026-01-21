@@ -105,6 +105,7 @@ Common adjustments include:
 }
 
 ```
+Reducing `MaxViewRadius` can significantly improve server performance by lowering the amount of world data processed and sent to clients, especially on machines with limited CPU or memory resources.
 
 The configuration file is generated automatically by Hytale during the first server startup.
 Since the server directory is bind-mounted, configuration changes can be made directly on the host filesystem.
