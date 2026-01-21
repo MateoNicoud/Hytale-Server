@@ -1,0 +1,38 @@
+---
+services:
+  hytale:
+    container_name: hytale
+    hostname: hytale
+    user: "42420:42420"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hytale-server:0.1.0
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - "${HYTALE_PORT:-5520}:${HYTALE_PORT:-5520}/udp"
+    volumes:
+      - ./data:/data
+      - /etc/machine-id:/etc/machine-id:ro
+      - /sys/class/dmi/id/product_uuid:/sys/class/dmi/id/product_uuid:ro
+    environment:
+      SERVER_IP: "${HYTALE_BIND_IP:-0.0.0.0}"
+      SERVER_PORT: "${HYTALE_PORT:-5520}"
+
+      JAVA_XMS: "${JAVA_XMS:-4G}"
+      JAVA_XMX: "${JAVA_XMX:-6G}"
+      JAVA_GC_OPTS: "${JAVA_GC_OPTS:-}"
+      JAVA_EXTRA_OPTS: "${JAVA_EXTRA_OPTS:-}"
+
+      ENABLE_AOT: "${ENABLE_AOT:-true}"
+      DISABLE_SENTRY: "${DISABLE_SENTRY:-false}"
+
+      AUTH_MODE: "${AUTH_MODE:-authenticated}"
+      PATCHLINE: "${PATCHLINE:-}"
+      SKIP_UPDATE_CHECK: "${SKIP_UPDATE_CHECK:-false}"
+
+      EXTRA_ARGS: "${EXTRA_ARGS:-}"
+
+      COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME:-hytale-server}"
