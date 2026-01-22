@@ -42,8 +42,27 @@ An example configuration is provided in `.env.example`.
 Build and start the server in detached mode:
 
 ```bash
-docker compose up --build -d
+docker compose up --build
 ```
+
+During the first startup, the server will display a device authentication URL similar to:
+```
+https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=XXXXX
+```
+
+1. Open the displayed link in a web browser
+
+2. Complete the authentication process on the Hytale website
+
+3. Return to the server console
+
+Wait until the following message appears in the console:
+
+```
+No server tokens configured. Use /auth login to authenticate.
+```
+
+Press `d` for detach from `compose up`
 
 At this stage, the server process will start, but authentication may not yet be completed.
 
@@ -74,10 +93,22 @@ The following commands **must be executed from the attached server console**:
    /auth login device
    ```
 
+the server will display a device authentication URL similar to:
+
+```
+ https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=????
+```
+
+   - Open the displayed link in a web browser
+
+   - Complete the authentication process on the Hytale website
+
+   - Return to the server console
+
 2. Persistent authentication:
 
    ```text
-   /auth persistence encrypted
+   /auth persistence Encrypted
    ```
 
 These steps generate and store authentication artifacts inside the persistent data directory.

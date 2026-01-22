@@ -1,5 +1,6 @@
 services:
   hytale:
+    container_name: "${COMPOSE_PROJECT_NAME:-hytale}"
     hostname: hytale
     user: "42420:42420"
     build:
@@ -35,4 +36,4 @@ services:
 
 volumes:
   hytale-data:
-    name: "${COMPOSE_PROJECT_NAME:-hytale-server}_hytale-data"
+    name: "${COMPOSE_PROJECT_NAME:-hytale}_hytale-data"
