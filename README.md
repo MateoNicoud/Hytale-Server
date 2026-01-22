@@ -45,10 +45,7 @@ Build and start the server in detached mode:
 docker compose up --build
 ```
 
-During the first startup, the server will display a device authentication URL similar to:
-```
-https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=XXXXX
-```
+During the first startup, the server will display a device authentication URL similar to: `https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=XXXXX`
 
 1. Open the displayed link in a web browser
 
@@ -58,9 +55,7 @@ https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=XXXXX
 
 Wait until the following message appears in the console:
 
-```
-No server tokens configured. Use /auth login to authenticate.
-```
+`No server tokens configured. Use /auth login to authenticate.`
 
 Press `d` for detach from `compose up`
 
@@ -93,11 +88,7 @@ The following commands **must be executed from the attached server console**:
    /auth login device
    ```
 
-the server will display a device authentication URL similar to:
-
-```
- https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=????
-```
+   the server will display a device authentication URL similar to: `https://oauth.accounts.hytale.com/oauth2/device/verify?user_code=????`
 
    - Open the displayed link in a web browser
 
@@ -119,11 +110,7 @@ To detach while keeping the server running, use `Ctrl+P` followed by `Ctrl+Q` (A
 
 ## Server Configuration
 
-Server configuration is stored in:
-
-```text
-data/server/config.json
-```
+Server configuration is stored in: `data/server/config.json`
 
 The configuration file is **generated automatically by Hytale during the first server startup**.
 
@@ -132,7 +119,7 @@ The configuration file is **generated automatically by Hytale during the first s
 Copy the configuration file from the container to the host:
 
 ```bash
-docker cp hytale:/data/server/config.json ./config.json
+docker cp hytale-server:/data/server/config.json ./config.json
 ```
 
 Edit the file using any text editor:
@@ -145,7 +132,7 @@ nano config.json
 Copy the modified file back into the container and restart the server:
 
 ```bash
-docker cp ./config.json hytale:/data/server/config.json
+docker cp ./config.json hytale-server:/data/server/config.json
 docker compose restart hytale
 ```
 
