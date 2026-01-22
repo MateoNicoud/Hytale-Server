@@ -39,13 +39,13 @@ An example configuration is provided in `.env.example`.
 
 ## Build and Startup
 
-### Image Build
+Build and start the server in detached mode:
 
 ```bash
 docker compose up --build -d
 ```
 
-At this stage, the server process will start but authentication may not be complete.
+At this stage, the server process will start, but authentication may not yet be completed.
 
 ## Mandatory Interactive Authentication (Attach Required)
 
@@ -84,7 +84,7 @@ These steps generate and store authentication artifacts inside the persistent da
 
 After successful completion, the container can be safely detached.
 Do **not** stop the server using `Ctrl+C`, as this will terminate the process.
-To detach while keeping the server running, use `Ctrl+P` followed by `Ctrl+Q` (AZERTY keyboard).
+To detach while keeping the server running, use `Ctrl+P` followed by `Ctrl+Q` (AZERTY keyboard layout).
 
 ## Server Configuration
 
@@ -94,7 +94,31 @@ Server configuration is stored in:
 data/server/config.json
 ```
 
-Common adjustments include:
+The configuration file is **generated automatically by Hytale during the first server startup**.
+
+### Editing the Configuration (Linux)
+
+Copy the configuration file from the container to the host:
+
+```bash
+docker cp hytale:/data/server/config.json ./config.json
+```
+
+Edit the file using any text editor:
+
+```bash
+nano config.json
+# or vim / code / etc.
+```
+
+Copy the modified file back into the container and restart the server:
+
+```bash
+docker cp ./config.json hytale:/data/server/config.json
+docker compose restart hytale
+```
+
+### Common Configuration Adjustments
 
 ```json
 {
@@ -103,32 +127,36 @@ Common adjustments include:
   "MaxViewRadius": 12,
   ...
 }
-
 ```
+
 Reducing `MaxViewRadius` can significantly improve server performance by lowering the amount of world data processed and sent to clients, especially on machines with limited CPU or memory resources.
 
-The configuration file is generated automatically by Hytale during the first server startup.
-Since the server directory is bind-mounted, configuration changes can be made directly on the host filesystem.
-A server restart may be required for some changes to take effect, depending on the setting.
+Most configuration changes require a server restart to take effect.
 
 ## Runtime Management
 
-### Logs
+### View Logs
 
 ```bash
 docker compose logs -f hytale
 ```
 
-### Re-attaching to the Console
+### Re-attach to the Console
 
 ```bash
 docker compose attach hytale
 ```
 
-### Stopping the Server
+### Stop the Server
 
 ```bash
 docker compose down
+```
+
+### Reset data
+
+```bash
+docker compose down -v
 ```
 
 ## Persistence Model
@@ -141,9 +169,9 @@ All runtime data is stored under the `data/` directory:
 * Configuration
 * Logs
 
-Rebuilding or updating the container image does not affect persistent data.
+Rebuilding or updating the container image does **not** affect persistent data.
 
 ## JVM and Performance Considerations
 
-* JVM heap size must remain consistent with available host memory.
-* Container memory limits should exceed `-Xmx` by a safe margin to avoid native OOM conditions.
+* JVM heap size must remain consistent with available host memory
+* Container memory limits should exceed `-Xmx` by a safe margin to avoid native out-of-memory conditions

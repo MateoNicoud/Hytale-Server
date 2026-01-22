@@ -1,7 +1,5 @@
----
 services:
   hytale:
-    container_name: hytale
     hostname: hytale
     user: "42420:42420"
     build:
@@ -14,7 +12,7 @@ services:
     ports:
       - "${HYTALE_PORT:-5520}:${HYTALE_PORT:-5520}/udp"
     volumes:
-      - ./data:/data
+      - hytale-data:/data
       - /etc/machine-id:/etc/machine-id:ro
       - /sys/class/dmi/id/product_uuid:/sys/class/dmi/id/product_uuid:ro
     environment:
@@ -35,4 +33,6 @@ services:
 
       EXTRA_ARGS: "${EXTRA_ARGS:-}"
 
-      COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME:-hytale-server}"
+volumes:
+  hytale-data:
+    name: "${COMPOSE_PROJECT_NAME:-hytale-server}_hytale-data"
